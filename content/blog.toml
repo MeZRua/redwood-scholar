@@ -1,0 +1,6 @@
+type = "blog"
+title = "Blog"
+description = "Research notes, essays, and in-progress ideas with room for formulas."
+posts_per_page = 8
+show_tags = true
+show_date = true

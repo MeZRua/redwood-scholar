@@ -1,0 +1,4 @@
+type = "publication"
+title = "Publications"
+description = "A collection of my research work. († means Corresponding author. ^ means Equal contribution. Names with underline is under my guidance.)"
+source = "publications.bib"

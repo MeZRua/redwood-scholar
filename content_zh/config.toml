@@ -1,0 +1,50 @@
+[site]
+title = "Albert"
+description = "Redwood Scholar 的中文演示：偏红色系、支持公式、适合学术写作。"
+
+[author]
+name = "Albert"
+title = "大模型研究者"
+institution = "香港城市大学"
+
+[[navigation]]
+title = "关于我"
+type = "page"
+target = "about"
+href = "/"
+
+[[navigation]]
+title = "论文"
+type = "page"
+target = "publications"
+href = "/publications"
+
+[[navigation]]
+title  = "博客"
+type   = "page"
+target = "blog"
+href   = "/blog"
+
+[[navigation]]
+title = "教学"
+type = "page"
+target = "teaching"
+href = "/teaching"
+
+[[navigation]]
+title = "奖项"
+type = "page"
+target = "awards"
+href = "/awards"
+
+[[navigation]]
+title = "服务"
+type = "page"
+target = "services"
+href = "/services"
+
+[[navigation]]
+title = "简历"
+type = "page"
+target = "cv"
+href = "/cv"

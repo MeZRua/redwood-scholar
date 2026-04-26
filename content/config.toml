@@ -1,0 +1,103 @@
+[site]
+title = "Albert"
+description = "Redwood Scholar demo for Albert: a warm, formula-friendly academic homepage template."
+favicon = "/favicon.svg"
+last_updated = "March 15, 2026"
+
+[author]
+name = "Albert R"
+title = "LLM Researcher"
+institution = "City University of Hong Kong"
+avatar = "/bio.jpg"
+
+# ============================================================
+#  社交 & 联系方式（留空或删除对应行则隐藏）
+# ============================================================
+[social]
+email    = "albert@example.com"
+location = "Hong Kong SAR, China"
+location_url = "https://maps.google.com/maps?q=City+University+of+Hong+Kong"
+
+location_details = [
+  "Room , Building Name,",
+  "City University of Hong Kong, Hong Kong SAR, China"
+]
+
+google_scholar = "https://scholar.google.com/"
+orcid          = "https://orcid.org/0000-0000-0000-0000"
+github         = "https://github.com/MeZRua"
+linkedin       = "https://linkedin.com/in/albert"
+blog           = "/blog"
+visitor_globe_provider = "clustrmaps"
+visitor_globe_embed = """<script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=7hsz8-nCNNu7dXeUJ2lG0l9CZJg4T9Md6qfj72CS6Cs"></script>"""
+
+# ============================================================
+#  功能开关
+# ============================================================
+[features]
+enable_likes         = true
+enable_one_page_mode = false
+enable_visitor_globe = true
+enable_blog_preview  = true
+
+# ============================================================
+#  多语言支持（中英双语）
+# ============================================================
+[i18n]
+enabled        = true
+locales        = ["en", "zh"]   # en 为第一项即默认语言
+default_locale = "en"
+mode           = "auto"         # 跟随浏览器语言自动切换
+fixed_locale   = "en"
+persist        = true           # 记住用户语言偏好
+switcher       = true           # 右上角显示语言切换按钮
+
+[i18n.labels]
+en = "English"
+zh = "中文"
+
+# ============================================================
+#  顶部导航菜单（顺序即显示顺序）
+# ============================================================
+
+[[navigation]]
+title  = "About"
+type   = "page"
+target = "about"
+href   = "/"
+
+[[navigation]]
+title  = "Publications"
+type   = "page"
+target = "publications"
+href   = "/publications"
+
+[[navigation]]
+title  = "Blog"
+type   = "page"
+target = "blog"
+href   = "/blog"
+
+[[navigation]]
+title  = "Teaching"
+type   = "page"
+target = "teaching"
+href   = "/teaching"
+
+[[navigation]]
+title  = "Awards"
+type   = "page"
+target = "awards"
+href   = "/awards"
+
+[[navigation]]
+title  = "Services"
+type   = "page"
+target = "services"
+href   = "/services"
+
+[[navigation]]
+title  = "CV"
+type   = "page"
+target = "cv"
+href   = "/cv"
