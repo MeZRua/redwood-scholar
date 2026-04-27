@@ -1,6 +1,5 @@
 'use client';
 
-import Profile from '@/components/home/Profile';
 import About from '@/components/home/About';
 import SelectedPublications from '@/components/home/SelectedPublications';
 import News, { NewsItem } from '@/components/home/News';
@@ -12,9 +11,7 @@ import { Publication } from '@/types/publication';
 import { CardPageConfig, PublicationPageConfig, TextPageConfig } from '@/types/page';
 import { useLocaleStore } from '@/lib/stores/localeStore';
 import type { BlogPost } from '@/types/blog';
-import HeroIntro from '@/components/home/HeroIntro';
-import ResearchSnapshot from '@/components/home/ResearchSnapshot';
-import ResearchStats from '@/components/home/ResearchStats';
+import ProfileHero from '@/components/home/ProfileHero';
 import RecentWriting from '@/components/blog/RecentWriting';
 import VisitorGlobe from '@/components/home/VisitorGlobe';
 
@@ -62,57 +59,58 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
     return null;
   }
 
+  const newsSections: SectionConfig[] = [];
+  data.pagesToShow.forEach((page) => {
+    if (page.type === 'about') {
+      page.sections.forEach((section) => {
+        if (section.type === 'list') {
+          newsSections.push(section);
+        }
+      });
+    }
+  });
+
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <HeroIntro author={data.author} description={data.description} />
+    <div className="mx-auto max-w-[1600px] relative">
+      {newsSections.length > 0 && (
+        <aside className="hidden xl:block absolute right-2 2xl:right-4 top-[30rem] w-60 2xl:w-64">
+          {newsSections.map((section) => (
+            <News key={section.id} items={section.items || []} title={section.title} />
+          ))}
+        </aside>
+      )}
 
-      <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[320px_1fr]">
-        <div>
-          <Profile
-            author={data.author}
-            social={data.social}
-            features={data.features}
-            researchInterests={data.researchInterests}
-          />
-        </div>
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+        <ProfileHero author={data.author} description={data.description} />
 
-        <div className="space-y-8">
-          <ResearchSnapshot interests={data.researchInterests} />
-          <ResearchStats publications={data.allPublications} />
-
+        <div className="mt-8 space-y-8">
           {data.pagesToShow.map((page) => (
             <section key={page.id} id={page.id} className="scroll-mt-24 space-y-8">
-              {page.type === 'about' && page.sections.map((section: SectionConfig) => {
-                switch (section.type) {
-                  case 'markdown':
-                    return (
-                      <About
-                        key={section.id}
-                        content={section.content || ''}
-                        title={section.title}
-                      />
-                    );
-                  case 'publications':
-                    return (
-                      <SelectedPublications
-                        key={section.id}
-                        publications={section.publications || []}
-                        title={section.title}
-                        enableOnePageMode={data.enableOnePageMode}
-                      />
-                    );
-                  case 'list':
-                    return (
-                      <News
-                        key={section.id}
-                        items={section.items || []}
-                        title={section.title}
-                      />
-                    );
-                  default:
-                    return null;
-                }
-              })}
+              {page.type === 'about' && page.sections
+                .filter((section) => section.type !== 'list')
+                .map((section: SectionConfig) => {
+                  switch (section.type) {
+                    case 'markdown':
+                      return (
+                        <About
+                          key={section.id}
+                          content={section.content || ''}
+                          title={section.title}
+                        />
+                      );
+                    case 'publications':
+                      return (
+                        <SelectedPublications
+                          key={section.id}
+                          publications={section.publications || []}
+                          title={section.title}
+                          enableOnePageMode={data.enableOnePageMode}
+                        />
+                      );
+                    default:
+                      return null;
+                  }
+                })}
               {page.type === 'publication' && (
                 <PublicationsList
                   config={page.config}

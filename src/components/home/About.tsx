@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { useMessages } from '@/lib/i18n/useMessages';
-import CollapsibleSection from '@/components/common/CollapsibleSection';
 import MarkdownProse from '@/components/blog/MarkdownProse';
 
 interface AboutProps {
@@ -15,14 +14,16 @@ export default function About({ content, title }: AboutProps) {
     const resolvedTitle = title || messages.home.about;
 
     return (
-        <motion.div
+        <motion.section
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
+            className="py-2"
         >
-            <CollapsibleSection title={`👋 ${resolvedTitle}`} eyebrow="Introduction">
-                <MarkdownProse content={content} />
-            </CollapsibleSection>
-        </motion.div>
+            <h2 className="mb-4 border-b border-neutral-200 pb-3 text-2xl font-serif font-bold text-primary">
+                👋 {resolvedTitle}
+            </h2>
+            <MarkdownProse content={content} />
+        </motion.section>
     );
 }

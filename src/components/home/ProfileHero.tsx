@@ -1,6 +1,6 @@
 import type { SiteConfig } from '@/lib/config';
 
-export default function HeroIntro({
+export default function ProfileHero({
   author,
   description,
 }: {
@@ -8,16 +8,21 @@ export default function HeroIntro({
   description: string;
 }) {
   return (
-    <section className="relative overflow-hidden rounded-[2rem] border border-[rgba(182,67,61,0.14)] bg-[linear-gradient(135deg,rgba(255,253,249,0.92),rgba(247,227,222,0.92))] p-8 shadow-[0_24px_60px_rgba(79,29,26,0.08)] sm:p-10">
-      <div className="absolute -top-12 right-0 h-44 w-44 rounded-full bg-accent/10 blur-3xl" />
-      <div className="absolute -bottom-16 left-10 h-40 w-40 rounded-full bg-[#c98b5f]/12 blur-3xl" />
+    <section
+      className="relative overflow-hidden rounded-[2rem] border border-neutral-200 p-8 shadow-[0_24px_60px_rgba(24,24,27,0.06)] sm:p-10"
+      style={{
+        background: 'linear-gradient(135deg, #ffffff 0%, #fef2f2 60%, #fde8e8 100%)',
+      }}
+    >
+      <div className="absolute -top-12 right-0 h-44 w-44 rounded-full bg-accent/8 blur-3xl" />
+      <div className="absolute -bottom-16 left-10 h-40 w-40 rounded-full bg-primary/6 blur-3xl" />
       <div className="relative">
         <p className="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-accent">
           Redwood Scholar
         </p>
         <h1 className="max-w-3xl text-4xl font-serif font-bold leading-tight text-primary sm:text-5xl">
           Albert
-          <span className="block text-[0.6em] font-sans font-medium tracking-normal text-neutral-600">
+          <span className="mt-2 block text-[0.6em] font-sans font-medium tracking-normal text-neutral-600">
             Building research stories that feel precise, warm, and alive.
           </span>
         </h1>
