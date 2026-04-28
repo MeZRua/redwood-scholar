@@ -73,7 +73,7 @@ export default function PublicationsList({ config, publications, embedded = fals
             transition={{ duration: 0.6, delay: 0.4 }}
         >
             {/* 标题 */}
-            <div className="mb-8">
+            <div className="mb-6">
                 <h1 className={`${embedded ? 'text-2xl' : 'text-4xl'} font-serif font-bold text-primary mb-4`}>
                     {config.title}
                 </h1>
@@ -83,6 +83,44 @@ export default function PublicationsList({ config, publications, embedded = fals
                     </p>
                 )}
             </div>
+
+            {publications.length > 0 && (() => {
+                const currentYear = new Date().getFullYear();
+                const total = publications.length;
+                const selected = publications.filter((p) => p.selected).length;
+                const recent = publications.filter((p) => p.year >= currentYear - 2).length;
+                const firstAuthor = publications.filter((p) => p.authors[0]?.isHighlighted).length;
+                const statItems = [
+                    { label: 'Total', value: total, color: '#cc1a10' },
+                    { label: 'Selected', value: selected, color: '#8b1010' },
+                    { label: 'Recent (2y)', value: recent, color: '#cc1a10' },
+                    { label: 'First-author', value: firstAuthor, color: '#8b1010' },
+                ];
+
+                return (
+                    <div className="mb-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                        {statItems.map(({ label, value, color }) => (
+                            <div
+                                key={label}
+                                className="group rounded-2xl border border-neutral-200/80 bg-gradient-to-br from-white/95 to-neutral-50/70 px-4 py-3.5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                            >
+                                <p
+                                    className="text-3xl font-serif font-bold leading-none"
+                                    style={{
+                                        backgroundImage: `linear-gradient(135deg, ${color}, #a84040)`,
+                                        WebkitBackgroundClip: 'text',
+                                        WebkitTextFillColor: 'transparent',
+                                        backgroundClip: 'text',
+                                    }}
+                                >
+                                    {value}
+                                </p>
+                                <p className="mt-1.5 text-[11px] font-medium uppercase tracking-wider text-neutral-400">{label}</p>
+                            </div>
+                        ))}
+                    </div>
+                );
+            })()}
 
             {/* 搜索 & 筛选 */}
             <div className="mb-8 space-y-4">
@@ -415,4 +453,3 @@ export default function PublicationsList({ config, publications, embedded = fals
         </motion.div>
     );
 }
-

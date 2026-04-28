@@ -16,10 +16,10 @@
 :root,
 .light {
   --background: #ffffff;
-  --foreground: #27272a;
+  --foreground: #1a1a1a;
   --primary: #8b1010;
   --primary-light: #b01818;
-  --primary-dark: #6f0f0f;
+  --primary-dark: #1a1a1a;
   --accent: #cc1a10;
   --accent-light: #e52e24;
   --accent-dark: #961208;
@@ -28,7 +28,7 @@
   --neutral-50: #fafafa;
   --neutral-100: #f4f4f5;
   --neutral-200: #e4e4e7;
-  --neutral-300: #d4d4d8;
+  --neutral-300: #d1d1d6;
   --neutral-400: #a1a1aa;
   --neutral-500: #71717a;
   --neutral-600: #52525b;
@@ -37,15 +37,15 @@
   --neutral-900: #18181b;
   
   /* Semantic colors */
-  --success: #16a34a;
-  --warning: #f59e0b;
+  --success: #2b8a6d;
+  --warning: #c07840;
   --error: #cc1a10;
-  --info: #2563eb;
+  --info: #961208;
   
   /* Glass effect */
-  --glass-bg: rgba(255, 255, 255, 0.72);
-  --glass-border: rgba(228, 228, 231, 0.92);
-  --glass-shadow: rgba(24, 24, 27, 0.06);
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(204, 26, 16, 0.12);
+  --glass-shadow: rgba(139, 16, 16, 0.07);
 }
 
 @theme inline {
@@ -131,7 +131,7 @@
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, #8b1010 0%, #b01818 100%);
   --gradient-accent: linear-gradient(135deg, #cc1a10 0%, #961208 100%);
-  --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(250, 250, 250, 0.72) 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(252, 242, 242, 0.55) 100%);
 }
 
 /* Use Source Han Serif for Chinese headings/title text via .font-serif */
@@ -171,7 +171,10 @@ html[data-locale^="zh"] {
 
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(circle at top left, rgba(192, 49, 42, 0.10), transparent 34%),
+    radial-gradient(circle at top right, rgba(192, 49, 42, 0.06), transparent 30%),
+    var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
   line-height: var(--line-height-normal);
@@ -241,7 +244,7 @@ body {
 
 /* Card background utility */
 .card-bg {
-  background-color: rgba(255, 255, 255, 0.92);
+  background-color: rgba(255, 253, 249, 0.88);
 }
 
 .dark .card-bg {
@@ -250,18 +253,20 @@ body {
 }
 
 .redwood-paper {
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(228, 228, 231, 0.96);
-  box-shadow: 0 20px 50px rgba(24, 24, 27, 0.05);
+  background:
+    linear-gradient(180deg, rgba(255, 248, 247, 0.99), rgba(255, 243, 241, 0.93)),
+    repeating-linear-gradient(180deg, rgba(192, 49, 42, 0.025), rgba(192, 49, 42, 0.025) 1px, transparent 1px, transparent 34px);
+  border: 1px solid rgba(192, 49, 42, 0.10);
+  box-shadow: 0 24px 60px rgba(90, 26, 23, 0.07), 0 0 0 1px rgba(192, 49, 42, 0.04);
 }
 
 .redwood-chip {
-  background: rgba(204, 26, 16, 0.06);
-  border: 1px solid rgba(204, 26, 16, 0.14);
+  background: rgba(204, 26, 16, 0.08);
+  border: 1px solid rgba(204, 26, 16, 0.16);
 }
 
 .redwood-divider {
-  background: linear-gradient(90deg, transparent, rgba(182, 67, 61, 0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(204, 26, 16, 0.4), transparent);
 }
 
 .katex-display {

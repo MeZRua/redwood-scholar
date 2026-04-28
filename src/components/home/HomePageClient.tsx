@@ -12,6 +12,7 @@ import { CardPageConfig, PublicationPageConfig, TextPageConfig } from '@/types/p
 import { useLocaleStore } from '@/lib/stores/localeStore';
 import type { BlogPost } from '@/types/blog';
 import ProfileHero from '@/components/home/ProfileHero';
+import ResearchSnapshot from '@/components/home/ResearchSnapshot';
 import RecentWriting from '@/components/blog/RecentWriting';
 import VisitorGlobe from '@/components/home/VisitorGlobe';
 
@@ -69,48 +70,62 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
       });
     }
   });
+  const hasNews = newsSections.length > 0;
 
   return (
-    <div className="mx-auto max-w-[1600px] relative">
-      {newsSections.length > 0 && (
-        <aside className="hidden xl:block absolute right-2 2xl:right-4 top-[30rem] w-60 2xl:w-64">
+    <div className="relative mx-auto max-w-[1600px]">
+      {hasNews && (
+        <aside className="absolute top-[30rem] right-2 hidden w-60 xl:block 2xl:right-4 2xl:w-64">
           {newsSections.map((section) => (
-            <News key={section.id} items={section.items || []} title={section.title} />
+            <News
+              key={section.id}
+              items={section.items || []}
+              title={section.title}
+            />
           ))}
         </aside>
       )}
 
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-        <ProfileHero author={data.author} description={data.description} />
+        <ProfileHero
+            author={data.author}
+            social={data.social}
+            features={data.features}
+            researchInterests={data.researchInterests}
+            description={data.description}
+        />
 
         <div className="mt-8 space-y-8">
+          {false && <ResearchSnapshot interests={data.researchInterests} />}
+
           {data.pagesToShow.map((page) => (
             <section key={page.id} id={page.id} className="scroll-mt-24 space-y-8">
               {page.type === 'about' && page.sections
-                .filter((section) => section.type !== 'list')
+                .filter((section: SectionConfig) => section.type !== 'list')
                 .map((section: SectionConfig) => {
-                  switch (section.type) {
-                    case 'markdown':
-                      return (
-                        <About
-                          key={section.id}
-                          content={section.content || ''}
-                          title={section.title}
-                        />
-                      );
-                    case 'publications':
+                switch (section.type) {
+                  case 'markdown':
+                    return (
+                      <About
+                        key={section.id}
+                        content={section.content || ''}
+                        title={section.title}
+                      />
+                    );
+                  case 'publications':
                       return (
                         <SelectedPublications
                           key={section.id}
                           publications={section.publications || []}
+                          allPublications={data.allPublications}
                           title={section.title}
                           enableOnePageMode={data.enableOnePageMode}
                         />
                       );
-                    default:
-                      return null;
-                  }
-                })}
+                  default:
+                    return null;
+                }
+              })}
               {page.type === 'publication' && (
                 <PublicationsList
                   config={page.config}
