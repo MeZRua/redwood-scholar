@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import About from '@/components/home/About';
 import SelectedPublications from '@/components/home/SelectedPublications';
 import News, { NewsItem } from '@/components/home/News';
@@ -55,6 +56,9 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
   const locale = useLocaleStore((state) => state.locale);
   const fallback = dataByLocale[defaultLocale] || Object.values(dataByLocale)[0];
   const data = dataByLocale[locale] || fallback;
+  const outerRef = useRef<HTMLDivElement | null>(null);
+  const aboutAnchorRef = useRef<HTMLDivElement | null>(null);
+  const [newsTop, setNewsTop] = useState<number | null>(null);
 
   if (!data) {
     return null;
@@ -72,10 +76,29 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
   });
   const hasNews = newsSections.length > 0;
 
+  useEffect(() => {
+    const updateNewsTop = () => {
+      if (!outerRef.current || !aboutAnchorRef.current) {
+        return;
+      }
+
+      const outerRect = outerRef.current.getBoundingClientRect();
+      const aboutRect = aboutAnchorRef.current.getBoundingClientRect();
+      setNewsTop(aboutRect.top - outerRect.top);
+    };
+
+    updateNewsTop();
+    window.addEventListener('resize', updateNewsTop);
+    return () => window.removeEventListener('resize', updateNewsTop);
+  }, [data]);
+
   return (
-    <div className="relative mx-auto max-w-[1600px]">
+    <div ref={outerRef} className="relative mx-auto max-w-[1600px]">
       {hasNews && (
-        <aside className="absolute top-[30rem] right-2 hidden w-60 xl:block 2xl:right-4 2xl:w-64">
+        <aside
+          className="absolute right-0 hidden w-60 xl:block 2xl:-right-2 2xl:w-64"
+          style={newsTop !== null ? { top: `${newsTop}px` } : undefined}
+        >
           {newsSections.map((section) => (
             <News
               key={section.id}
@@ -106,11 +129,15 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
                 switch (section.type) {
                   case 'markdown':
                     return (
-                      <About
+                      <div
                         key={section.id}
-                        content={section.content || ''}
-                        title={section.title}
-                      />
+                        ref={aboutAnchorRef.current ? undefined : aboutAnchorRef}
+                      >
+                        <About
+                          content={section.content || ''}
+                          title={section.title}
+                        />
+                      </div>
                     );
                   case 'publications':
                       return (
