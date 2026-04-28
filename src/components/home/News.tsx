@@ -26,14 +26,14 @@ export default function News({ items, title }: NewsProps) {
       <button
         type="button"
         onClick={() => setIsOpen((v) => !v)}
-        className="group mb-4 flex w-full items-center justify-between border-b border-neutral-200 pb-2"
+        className="group mb-4 flex w-full items-center justify-between border-b border-neutral-200 pb-3"
       >
-        <span className="text-sm font-bold uppercase tracking-[0.18em] text-accent">
+        <span className="text-2xl font-serif font-bold text-primary">
           🔥 {resolvedTitle}
         </span>
         <ChevronDownIcon
           className={cn(
-            'h-4 w-4 text-neutral-400 transition-transform duration-200 group-hover:text-accent',
+            'h-5 w-5 text-neutral-400 transition-transform duration-200 group-hover:text-accent',
             isOpen && 'rotate-180'
           )}
         />
@@ -60,10 +60,10 @@ export default function News({ items, title }: NewsProps) {
                   className="group/item relative pb-4 last:pb-0"
                 >
                   <div className="absolute -left-5 top-[7px] h-3 w-3 rounded-full border-2 border-accent bg-white shadow-sm transition-transform duration-200 group-hover/item:scale-125" />
-                  <span className="mb-1 block text-xs font-bold uppercase tracking-[0.16em] text-accent">
+                  <span className="mb-1 block text-sm font-bold uppercase tracking-[0.14em] text-accent">
                     {item.date}
                   </span>
-                  <p className="text-sm leading-7 text-neutral-600">
+                  <p className="text-[1.03rem] leading-8 text-neutral-700">
                     {item.content}
                   </p>
                 </motion.div>
