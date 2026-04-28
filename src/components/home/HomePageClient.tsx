@@ -60,12 +60,8 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
   const aboutAnchorRef = useRef<HTMLDivElement | null>(null);
   const [newsTop, setNewsTop] = useState<number | null>(null);
 
-  if (!data) {
-    return null;
-  }
-
   const newsSections: SectionConfig[] = [];
-  data.pagesToShow.forEach((page) => {
+  data?.pagesToShow.forEach((page) => {
     if (page.type === 'about') {
       page.sections.forEach((section) => {
         if (section.type === 'list') {
@@ -77,6 +73,10 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
   const hasNews = newsSections.length > 0;
 
   useEffect(() => {
+    if (!data) {
+      return;
+    }
+
     const updateNewsTop = () => {
       if (!outerRef.current || !aboutAnchorRef.current) {
         return;
@@ -91,6 +91,10 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
     window.addEventListener('resize', updateNewsTop);
     return () => window.removeEventListener('resize', updateNewsTop);
   }, [data]);
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <div ref={outerRef} className="relative mx-auto max-w-[1600px]">
