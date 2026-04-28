@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import About from '@/components/home/About';
 import SelectedPublications from '@/components/home/SelectedPublications';
 import News, { NewsItem } from '@/components/home/News';
@@ -56,64 +55,13 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
   const locale = useLocaleStore((state) => state.locale);
   const fallback = dataByLocale[defaultLocale] || Object.values(dataByLocale)[0];
   const data = dataByLocale[locale] || fallback;
-  const outerRef = useRef<HTMLDivElement | null>(null);
-  const aboutAnchorRef = useRef<HTMLDivElement | null>(null);
-  const [newsTop, setNewsTop] = useState<number | null>(null);
-
-  const newsSections: SectionConfig[] = [];
-  data?.pagesToShow.forEach((page) => {
-    if (page.type === 'about') {
-      page.sections.forEach((section) => {
-        if (section.type === 'list') {
-          newsSections.push(section);
-        }
-      });
-    }
-  });
-  const hasNews = newsSections.length > 0;
-
-  useEffect(() => {
-    if (!data) {
-      return;
-    }
-
-    const updateNewsTop = () => {
-      if (!outerRef.current || !aboutAnchorRef.current) {
-        return;
-      }
-
-      const outerRect = outerRef.current.getBoundingClientRect();
-      const aboutRect = aboutAnchorRef.current.getBoundingClientRect();
-      setNewsTop(aboutRect.top - outerRect.top);
-    };
-
-    updateNewsTop();
-    window.addEventListener('resize', updateNewsTop);
-    return () => window.removeEventListener('resize', updateNewsTop);
-  }, [data]);
 
   if (!data) {
     return null;
   }
 
   return (
-    <div ref={outerRef} className="relative mx-auto max-w-[1600px]">
-      {hasNews && (
-        <aside
-          className="absolute right-0 hidden w-60 xl:block 2xl:-right-2 2xl:w-64"
-          style={newsTop !== null ? { top: `${newsTop}px` } : undefined}
-        >
-          {newsSections.map((section) => (
-            <News
-              key={section.id}
-              items={section.items || []}
-              title={section.title}
-            />
-          ))}
-        </aside>
-      )}
-
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         <ProfileHero
             author={data.author}
             social={data.social}
@@ -127,21 +75,15 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
 
           {data.pagesToShow.map((page) => (
             <section key={page.id} id={page.id} className="scroll-mt-24 space-y-8">
-              {page.type === 'about' && page.sections
-                .filter((section: SectionConfig) => section.type !== 'list')
-                .map((section: SectionConfig) => {
+              {page.type === 'about' && page.sections.map((section: SectionConfig) => {
                 switch (section.type) {
                   case 'markdown':
                     return (
-                      <div
+                      <About
                         key={section.id}
-                        ref={aboutAnchorRef.current ? undefined : aboutAnchorRef}
-                      >
-                        <About
-                          content={section.content || ''}
-                          title={section.title}
-                        />
-                      </div>
+                        content={section.content || ''}
+                        title={section.title}
+                      />
                     );
                   case 'publications':
                       return (
@@ -153,6 +95,14 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
                           enableOnePageMode={data.enableOnePageMode}
                         />
                       );
+                  case 'list':
+                    return (
+                      <News
+                        key={section.id}
+                        items={section.items || []}
+                        title={section.title}
+                      />
+                    );
                   default:
                     return null;
                 }
@@ -186,7 +136,6 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
 
           <VisitorGlobe social={data.social} enabled={data.features.enable_visitor_globe} />
         </div>
-      </div>
     </div>
   );
 }
